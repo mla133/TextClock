@@ -2,7 +2,6 @@
 
 static Window *s_main_window;
 static TextLayer *s_time_layer;
-
 static BitmapLayer *s_background_layer;
 static GBitmap *s_background_bitmap;
 
@@ -36,28 +35,20 @@ static void main_window_load(Window *window) {
   bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
   layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));
   
-  // Create time TextLayer
+  // Create time TextLayer, setting font/alignments, then set to TextLayer
   s_time_layer = text_layer_create(GRect(0, 125, 144, 50));
   text_layer_set_background_color(s_time_layer, GColorBlack);
   text_layer_set_text_color(s_time_layer, GColorWhite);
-    
-  // Improve the layout to be more like a watchface
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
-  
-  // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
   
 }
 
 static void main_window_unload(Window *window) {
-  //Destroy GBitmap
+  //  Cleanup layers (Destroy GBitmap, BitmapLayer, TextLayer)
   gbitmap_destroy(s_background_bitmap);
-
-  //Destroy BitmapLayer
   bitmap_layer_destroy(s_background_layer);
-  
-  // Destroy TextLayer
   text_layer_destroy(s_time_layer);
 }
 
